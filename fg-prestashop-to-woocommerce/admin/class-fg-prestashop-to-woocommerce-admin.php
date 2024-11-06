@@ -1538,7 +1538,7 @@ SQL;
 				$total_elements_count = $this->get_total_elements_count();
 				$this->progressbar->set_total_count($total_elements_count);
 				
-				$this->imported_media = $this->get_imported_ps_posts($meta_key = '_fgp2wc_old_file');
+				$this->imported_media = $this->get_imported_ps_posts('_fgp2wc_old_file');
 				
 				// Hook for doing other actions before the pre import
 				do_action('fgp2wc_pre_pre_import');
@@ -1556,7 +1556,7 @@ SQL;
 				}
 				if ( !isset($this->premium_options['skip_products']) || !$this->premium_options['skip_products'] ) {
 					$this->import_products();
-					$this->imported_products = $this->get_imported_products();
+					$this->imported_products[$this->current_language] = $this->get_imported_products($this->current_language);
 					
 					// Regenerate the WooCommerce product lookup tables
 					if ( function_exists('wc_update_product_lookup_tables') ) {
@@ -2131,10 +2131,11 @@ SQL;
 		 *
 		 * @since 3.36.0
 		 * 
+		 * @param int $language Language ID
 		 * @return array of products mapped with the PrestaShop products ids
 		 */
-		public function get_imported_products() {
-			return $this->get_imported_ps_posts($meta_key = '_fgp2wc_old_product_id');
+		public function get_imported_products($language) {
+			return $this->get_imported_ps_posts('_fgp2wc_old_product_id' . '-lang' . $language);
 		}
 		
 		/**
@@ -2148,7 +2149,7 @@ SQL;
 		public function get_imported_ps_posts($meta_key = '_fgp2wc_old_cms_article_id') {
 			global $wpdb;
 			$posts = array();
-
+			
 			$sql = $wpdb->prepare("SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s", $meta_key);
 			$results = $wpdb->get_results($sql);
 			foreach ( $results as $result ) {
@@ -2407,7 +2408,7 @@ SQL;
 			}
 			
 			// Set the list of previously imported articles to not import them twice
-			$imported_products = $this->get_imported_products();
+			$imported_products = $this->get_imported_products($this->current_language);
 			
 			do {
 				if ( $this->import_stopped() ) {
@@ -2637,7 +2638,7 @@ SQL;
 				$this->add_post_media($new_post_id, $this->get_attachment_ids($post_media), $date, false);
 
 				// Add the PrestaShop ID as a post meta
-				add_post_meta($new_post_id, '_fgp2wc_old_product_id', $product['id_product'], true);
+				add_post_meta($new_post_id, '_fgp2wc_old_product_id' . '-lang' . $language, $product['id_product'], true);
 				
 				// Hook for doing other actions after inserting the post
 				do_action('fgp2wc_post_insert_post', $new_post_id, $product, 'product-' . $product['id_product']);
@@ -4118,10 +4119,11 @@ SQL;
 		 * @since 3.22.0
 		 * 
 		 * @param int $ps_product_id PrestaShop product ID
+		 * @param int $language PrestaShop language ID
 		 * @return int WordPress product ID
 		 */
-		public function get_wp_product_id_from_prestashop_id($ps_product_id) {
-			$product_id = $this->get_wp_post_id_from_meta('_fgp2wc_old_product_id', $ps_product_id);
+		public function get_wp_product_id_from_prestashop_id($ps_product_id, $language=1) {
+			$product_id = $this->get_wp_post_id_from_meta('_fgp2wc_old_product_id' . '-lang' . $language, $ps_product_id);
 			return $product_id;
 		}
 		

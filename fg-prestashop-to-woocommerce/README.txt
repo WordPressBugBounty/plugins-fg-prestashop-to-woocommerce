@@ -3,8 +3,8 @@ Contributors: Kerfred
 Plugin Uri: https://wordpress.org/plugins/fg-prestashop-to-woocommerce/
 Tags: prestashop, woocommerce, importer, converter, dropshipping
 Requires at least: 4.5
-Tested up to: 6.6.2
-Stable tag: 4.56.1
+Tested up to: 6.7
+Stable tag: 4.57.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,9 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * other can be translated
 
 == Changelog ==
+
+= 4.57.0 =
+* Tested with WordPress 6.7
 
 = 4.56.1 =
 * Fixed: Prices imported with wrong tax rate
@@ -893,9 +896,5 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 
 == Upgrade Notice ==
 
-= 4.56.1 =
-Fixed: Prices imported with wrong tax rate
-Tested with WordPress 6.6.2
-
-= 4.56.0 =
-New: Import the EAN field into the WooCommerce field GTIN, UPC, EAN or ISBN
+= 4.57.0 =
+Tested with WordPress 6.7
