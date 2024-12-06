@@ -357,6 +357,7 @@ if ( !class_exists('FG_PrestaShop_to_WooCommerce_Admin', false) ) {
 				'skip_media'					=> false,
 				'first_image'					=> 'as_is_and_featured',
 				'image_size'					=> 'thumbnail',
+				'cat_image_size'				=> 'full',
 				'skip_thumbnails'				=> false,
 				'import_external'				=> false,
 				'import_duplicates'				=> false,
@@ -1503,6 +1504,7 @@ SQL;
 				'skip_media'					=> filter_input(INPUT_POST, 'skip_media', FILTER_VALIDATE_BOOLEAN),
 				'first_image'					=> filter_input(INPUT_POST, 'first_image', FILTER_SANITIZE_SPECIAL_CHARS),
 				'image_size'					=> filter_input(INPUT_POST, 'image_size', FILTER_SANITIZE_SPECIAL_CHARS),
+				'cat_image_size'				=> filter_input(INPUT_POST, 'cat_image_size', FILTER_SANITIZE_SPECIAL_CHARS),
 				'skip_thumbnails'				=> filter_input(INPUT_POST, 'skip_thumbnails', FILTER_VALIDATE_BOOLEAN),
 				'import_external'				=> filter_input(INPUT_POST, 'import_external', FILTER_VALIDATE_BOOLEAN),
 				'import_duplicates'				=> filter_input(INPUT_POST, 'import_duplicates', FILTER_VALIDATE_BOOLEAN),
@@ -3389,6 +3391,9 @@ SQL;
 			$filenames = array();
 			switch ( $type ) {
 				case 'category':
+					if ( $this->plugin_options['cat_image_size'] == 'thumbnail' ) {
+						$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/tmp/category_' . $id_image . '-thumb.jpg';
+					}
 					$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/c/' . $id_image . '.jpg';
 					$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/c/' . $id_image . '-category.jpg';
 					$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/tmp/category_' . $id_image . '-thumb.jpg';

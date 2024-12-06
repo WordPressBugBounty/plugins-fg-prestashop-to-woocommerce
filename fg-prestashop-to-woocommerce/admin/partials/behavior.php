@@ -17,8 +17,13 @@
 						<input id="first_image_as_featured" name="first_image" type="radio" value="as_featured" <?php checked($data['first_image'], 'as_featured'); ?> /> <label for="first_image_as_featured" title="<?php _e('The first image will be removed from the post content and imported as the featured image only', 'fg-prestashop-to-woocommerce'); ?>"><?php _e('as featured only', 'fg-prestashop-to-woocommerce'); ?></label>&nbsp;&nbsp;
 						<input id="first_image_as_is_and_featured" name="first_image" type="radio" value="as_is_and_featured" <?php checked($data['first_image'], 'as_is_and_featured'); ?> /> <label for="first_image_as_is_and_featured" title="<?php _e('The first image will be kept in the post content and imported as the featured image', 'fg-prestashop-to-woocommerce'); ?>"><?php _e('as is and as featured', 'fg-prestashop-to-woocommerce'); ?></label>
 						<br />
-						<input id="image_size_thumbnail" name="image_size" type="radio" value="thumbnail" <?php checked($data['image_size'], 'thumbnail'); ?> /> <label for="image_size_thumbnail"><?php _e('Import the thumbnail product images', 'fg-prestashop-to-woocommerce'); ?></label>&nbsp;&nbsp;
-						<input id="image_size_full" name="image_size" type="radio" value="full" <?php checked($data['image_size'], 'full'); ?> /> <label for="image_size_full"><?php _e('Import the full size product images', 'fg-prestashop-to-woocommerce'); ?></label>&nbsp;&nbsp;
+						<?php _e('Product images:', 'fg-prestashop-to-woocommerce'); ?>&nbsp; 
+						<input id="image_size_thumbnail" name="image_size" type="radio" value="thumbnail" <?php checked($data['image_size'], 'thumbnail'); ?> /> <label for="image_size_thumbnail"><?php _e('thumbnail', 'fg-prestashop-to-woocommerce'); ?></label>&nbsp;&nbsp;
+						<input id="image_size_full" name="image_size" type="radio" value="full" <?php checked($data['image_size'], 'full'); ?> /> <label for="image_size_full"><?php _e('full size', 'fg-prestashop-to-woocommerce'); ?></label>&nbsp;&nbsp;
+						<br />
+						<?php _e('Category images:', 'fg-prestashop-to-woocommerce'); ?>&nbsp; 
+						<input id="cat_image_size_thumbnail" name="cat_image_size" type="radio" value="thumbnail" <?php checked($data['cat_image_size'], 'thumbnail'); ?> /> <label for="cat_image_size_thumbnail"><?php _e('thumbnail', 'fg-prestashop-to-woocommerce'); ?></label>&nbsp;&nbsp;
+						<input id="cat_image_size_full" name="cat_image_size" type="radio" value="full" <?php checked($data['cat_image_size'], 'full'); ?> /> <label for="cat_image_size_full"><?php _e('full size', 'fg-prestashop-to-woocommerce'); ?></label>&nbsp;&nbsp;
 						<br />
 						<input id="skip_thumbnails" name="skip_thumbnails" type="checkbox" value="1" <?php checked($data['skip_thumbnails'], 1); ?> /> <label for="skip_thumbnails"><?php _e("Don't generate the thumbnails", 'fg-prestashop-to-woocommerce'); ?></label>
 						<br />
