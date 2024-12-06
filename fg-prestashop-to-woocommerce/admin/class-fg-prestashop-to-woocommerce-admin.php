@@ -3393,6 +3393,8 @@ SQL;
 				case 'category':
 					if ( $this->plugin_options['cat_image_size'] == 'thumbnail' ) {
 						$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/tmp/category_' . $id_image . '-thumb.jpg';
+						$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/c/' . $id_image . '-medium_default.jpg';
+						$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/c/' . $id_image . '_thumb.jpg';
 					}
 					$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/c/' . $id_image . '.jpg';
 					$filenames[] = untrailingslashit($this->plugin_options['url']) . '/img/c/' . $id_image . '-category.jpg';

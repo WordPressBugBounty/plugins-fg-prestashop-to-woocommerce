@@ -4,7 +4,7 @@ Plugin Uri: https://wordpress.org/plugins/fg-prestashop-to-woocommerce/
 Tags: prestashop, woocommerce, importer, converter, dropshipping
 Requires at least: 4.5
 Tested up to: 6.7.1
-Stable tag: 4.58.0
+Stable tag: 4.59.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,10 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * other can be translated
 
 == Changelog ==
+
+= 4.59.0 =
+* New: Search thumbnail category images in /img/c/XXX-medium_default.jpg'
+* New: Search thumbnail category images in /img/c/XXX_thumb.jpg'
 
 = 4.58.0 =
 * New: Option to import the thumbnail category images
@@ -900,6 +904,6 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 
 == Upgrade Notice ==
 
-= 4.58.0 =
-New: Option to import the thumbnail category images
-Tested with WordPress 6.7.1
+= 4.59.0 =
+New: Search thumbnail category images in /img/c/XXX-medium_default.jpg'
+New: Search thumbnail category images in /img/c/XXX_thumb.jpg'
