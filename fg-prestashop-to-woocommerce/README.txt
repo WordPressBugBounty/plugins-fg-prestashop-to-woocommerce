@@ -4,7 +4,7 @@ Plugin Uri: https://wordpress.org/plugins/fg-prestashop-to-woocommerce/
 Tags: prestashop, woocommerce, importer, converter, dropshipping
 Requires at least: 4.5
 Tested up to: 6.7.1
-Stable tag: 4.59.0
+Stable tag: 4.59.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,9 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * other can be translated
 
 == Changelog ==
+
+= 4.59.1 =
+* Fixed: A product was displayed twice on the same page on the front-end if it exists a draft product with the same name
 
 = 4.59.0 =
 * New: Search thumbnail category images in /img/c/XXX-medium_default.jpg'
@@ -903,6 +906,9 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * Initial version: Import PrestaShop products, categories, tags, images and CMS
 
 == Upgrade Notice ==
+
+= 4.59.1 =
+Fixed: A product was displayed twice on the same page on the front-end if it exists a draft product with the same name
 
 = 4.59.0 =
 New: Search thumbnail category images in /img/c/XXX-medium_default.jpg'

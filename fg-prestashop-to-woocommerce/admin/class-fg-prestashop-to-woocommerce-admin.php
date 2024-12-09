@@ -2513,6 +2513,7 @@ SQL;
 			
 			// Status
 			$status = (($product['active'] == 1) && ($product['available_for_order'] == 1))? 'publish': 'draft';
+			$post_name = ($status == 'publish')? $product['slug'] : '';
 			
 			// Insert the post
 			$new_post = array(
@@ -2521,7 +2522,7 @@ SQL;
 				'post_excerpt'		=> $excerpt,
 				'post_status'		=> $status,
 				'post_title'		=> $product['name'],
-				'post_name'			=> $product['slug'],
+				'post_name'			=> $post_name,
 				'post_type'			=> 'product',
 				'menu_order'		=> $position,
 				'tax_input'			=> array(
