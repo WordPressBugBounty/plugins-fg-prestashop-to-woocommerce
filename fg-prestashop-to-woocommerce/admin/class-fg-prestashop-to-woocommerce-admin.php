@@ -4130,7 +4130,10 @@ SQL;
 		 * @param int $language PrestaShop language ID
 		 * @return int WordPress product ID
 		 */
-		public function get_wp_product_id_from_prestashop_id($ps_product_id, $language=1) {
+		public function get_wp_product_id_from_prestashop_id($ps_product_id, $language=null) {
+			if ( !$language ) {
+				$language = $this->current_language;
+			}
 			$product_id = $this->get_wp_post_id_from_meta('_fgp2wc_old_product_id' . '-lang' . $language, $ps_product_id);
 			return $product_id;
 		}
