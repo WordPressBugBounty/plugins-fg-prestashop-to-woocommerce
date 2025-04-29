@@ -3,8 +3,8 @@ Contributors: Kerfred
 Plugin Uri: https://wordpress.org/plugins/fg-prestashop-to-woocommerce/
 Tags: prestashop, woocommerce, importer, converter, dropshipping
 Requires at least: 4.5
-Tested up to: 6.7
-Stable tag: 4.59.2
+Tested up to: 6.8
+Stable tag: 4.59.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,9 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * other can be translated
 
 == Changelog ==
+
+= 4.59.3 =
+* Tested with WordPress 6.8
 
 = 4.59.2 =
 * Fixed: Wrong language used in the function get_wp_product_id_from_prestashop_id() if it is different from 1
@@ -909,6 +912,9 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * Initial version: Import PrestaShop products, categories, tags, images and CMS
 
 == Upgrade Notice ==
+
+= 4.59.3 =
+Tested with WordPress 6.8
 
 = 4.59.2 =
 Fixed: Wrong language used in the function get_wp_product_id_from_prestashop_id() if it is different from 1
