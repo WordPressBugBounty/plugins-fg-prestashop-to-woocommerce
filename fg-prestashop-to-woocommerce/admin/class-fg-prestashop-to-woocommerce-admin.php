@@ -363,7 +363,6 @@ if ( !class_exists('FG_PrestaShop_to_WooCommerce_Admin', false) ) {
 				'import_duplicates'				=> false,
 				'force_media_import'			=> false,
 				'stock_management'				=> true,
-				'meta_keywords_in_tags'			=> false,
 				'import_as_pages'				=> false,
 				'timeout'						=> 20,
 				'price'							=> 'without_tax',
@@ -497,7 +496,7 @@ if ( !class_exists('FG_PrestaShop_to_WooCommerce_Admin', false) ) {
 			$data = $this->plugin_options;
 			
 			$data['title'] = __('Import PrestaShop', 'fg-prestashop-to-woocommerce');
-			$data['description'] = __('This plugin will import products, categories, tags, images and CMS from PrestaShop to WooCommerce/WordPress.<br />Compatible with PrestaShop versions 1.1 to 1.7.', 'fg-prestashop-to-woocommerce');
+			$data['description'] = __('This plugin will import products, categories, tags, images and CMS from PrestaShop to WooCommerce/WordPress.<br />Compatible with PrestaShop versions 1.1 to 9.', 'fg-prestashop-to-woocommerce');
 			$data['description'] .= "<br />\n" . sprintf(__('For any issue, please read the <a href="%s" target="_blank">FAQ</a> first.', 'fg-prestashop-to-woocommerce'), $this->faq_url);
 			$data['database_info'] = $this->get_database_info();
 			$data['importer'] = $this->importer;
@@ -1509,7 +1508,6 @@ SQL;
 				'import_external'				=> filter_input(INPUT_POST, 'import_external', FILTER_VALIDATE_BOOLEAN),
 				'import_duplicates'				=> filter_input(INPUT_POST, 'import_duplicates', FILTER_VALIDATE_BOOLEAN),
 				'force_media_import'			=> filter_input(INPUT_POST, 'force_media_import', FILTER_VALIDATE_BOOLEAN),
-				'meta_keywords_in_tags'			=> filter_input(INPUT_POST, 'meta_keywords_in_tags', FILTER_VALIDATE_BOOLEAN),
 				'import_as_pages'				=> filter_input(INPUT_POST, 'import_as_pages', FILTER_VALIDATE_BOOLEAN),
 				'timeout'						=> filter_input(INPUT_POST, 'timeout', FILTER_SANITIZE_NUMBER_INT),
 				'price'							=> filter_input(INPUT_POST, 'price', FILTER_SANITIZE_SPECIAL_CHARS),
@@ -1947,12 +1945,10 @@ SQL;
 		/**
 		 * Import CMS articles
 		 *
-		 * @return array:
-		 * 		int posts_count: Number of posts imported
+		 * @return int Number of posts imported
 		 */
 		private function import_cms_articles() {
 			$imported_posts_count = 0;
-			$this->imported_tags = array();
 			
 			if ( $this->import_stopped() ) {
 				return 0;
@@ -2015,13 +2011,9 @@ SQL;
 				$progress_cli->finish();
 			}
 			
-			$tags_count = count(array_unique($this->imported_tags));
 			$this->display_admin_notice(sprintf(_n('%d article imported', '%d articles imported', $imported_posts_count, 'fg-prestashop-to-woocommerce'), $imported_posts_count));
-			$this->display_admin_notice(sprintf(_n('%d tag imported', '%d tags imported', $tags_count, 'fg-prestashop-to-woocommerce'), $tags_count));
-			return array(
-				'posts_count'	=> $imported_posts_count,
-				'tags_count'	=> $tags_count,
-			);
+			
+			return $imported_posts_count;
 		}
 		
 		/**
@@ -2073,14 +2065,6 @@ SQL;
 			// Status
 			$status = ($post['active'] == 1)? 'publish' : 'draft';
 
-			// Tags
-			$tags = array();
-			if ( $this->plugin_options['meta_keywords_in_tags'] && !empty($post['meta_keywords']) ) {
-				$tags = explode(',', $post['meta_keywords']);
-				$this->import_tags($tags, 'post_tag');
-				$this->imported_tags = array_merge($this->imported_tags, $tags);
-			}
-
 			// Insert the post
 			$new_post = array(
 				'post_category'		=> $categories_ids,
@@ -2090,7 +2074,6 @@ SQL;
 				'post_title'		=> $post['meta_title'],
 				'post_name'			=> $post['slug'],
 				'post_type'			=> $this->post_type,
-				'tags_input'		=> $tags,
 				'menu_order'        => $post['position'],
 			);
 
@@ -2500,9 +2483,6 @@ SQL;
 
 			// Tags
 			$tags = $this->get_product_tags($product['id_product']);
-			if ( $this->plugin_options['meta_keywords_in_tags'] && !empty($product['meta_keywords']) ) {
-				$tags = array_merge($tags, explode(',', $product['meta_keywords']));
-			}
 			$this->import_tags($tags, 'product_tag');
 
 			// Process content
@@ -3052,7 +3032,7 @@ SQL;
 			if ( version_compare($this->prestashop_version, '1.4', '<') ) {
 				// PrestaShop 1.3
 				$sql = "
-					SELECT a.id_cms, l.id_lang, l.meta_title, l.meta_description, l.meta_keywords, l.content, l.link_rewrite AS slug, '' AS id_category, 0 AS position, 1 AS active, $indexation_field, '' AS date
+					SELECT a.id_cms, l.id_lang, l.meta_title, l.meta_description, l.content, l.link_rewrite AS slug, '' AS id_category, 0 AS position, 1 AS active, $indexation_field, '' AS date
 					$extra_cols
 					FROM {$prefix}cms a
 					INNER JOIN {$prefix}cms_lang AS l ON l.id_cms = a.id_cms AND l.id_lang = '$lang'
@@ -3076,7 +3056,7 @@ SQL;
 					}
 				}
 				$sql = "
-					SELECT DISTINCT a.id_cms, l.id_lang, l.meta_title, l.meta_description, l.meta_keywords, l.content, l.link_rewrite AS slug, a.id_cms_category AS id_category, a.position, a.active, $indexation_field, c.date_add AS date
+					SELECT DISTINCT a.id_cms, l.id_lang, l.meta_title, l.meta_description, l.content, l.link_rewrite AS slug, a.id_cms_category AS id_category, a.position, a.active, $indexation_field, c.date_add AS date
 					$extra_cols
 					FROM {$prefix}cms a
 					$extra_joins
@@ -3134,7 +3114,7 @@ SQL;
 				}
 			}
 			$sql = "
-				SELECT DISTINCT c.id_category, c.date_add AS date, $position_field, c.id_parent, $root_category_field, cl.id_lang, cl.name, cl.description, cl.link_rewrite AS slug, cl.meta_description, cl.meta_keywords, cl.meta_title, $order
+				SELECT DISTINCT c.id_category, c.date_add AS date, $position_field, c.id_parent, $root_category_field, cl.id_lang, cl.name, cl.description, cl.link_rewrite AS slug, cl.meta_description, cl.meta_title, $order
 				FROM {$prefix}category c
 				$extra_joins
 				LEFT JOIN {$prefix}category_lang AS cl ON cl.id_category = c.id_category AND cl.id_lang = '$lang' $extra_join_category_lang
@@ -3213,7 +3193,7 @@ SQL;
 					$id_tax_rules_group = 'p.id_tax_rules_group';
 				}
 				$sql = "
-					SELECT p.id_product, p.id_supplier, p.id_manufacturer, $id_tax_rules_group, p.id_category_default, p.on_sale, p.quantity, p.price, p.wholesale_price, p.reference, p.ean13, p.supplier_reference, $location_field, $condition_field, $show_condition_field, $width_field, $height_field, $depth_field, p.weight, p.out_of_stock, p.active, $available_for_order_field, 'both' AS visibility, 0 AS is_virtual, p.date_add AS date, pl.id_lang, pl.name, pl.link_rewrite AS slug, pl.description, pl.description_short, pl.meta_description, pl.meta_keywords, pl.meta_title
+					SELECT p.id_product, p.id_supplier, p.id_manufacturer, $id_tax_rules_group, p.id_category_default, p.on_sale, p.quantity, p.price, p.wholesale_price, p.reference, p.ean13, p.supplier_reference, $location_field, $condition_field, $show_condition_field, $width_field, $height_field, $depth_field, p.weight, p.out_of_stock, p.active, $available_for_order_field, 'both' AS visibility, 0 AS is_virtual, p.date_add AS date, pl.id_lang, pl.name, pl.link_rewrite AS slug, pl.description, pl.description_short, pl.meta_description, pl.meta_title
 					$extra_cols
 					FROM {$prefix}product p
 					INNER JOIN {$prefix}product_lang AS pl ON pl.id_product = p.id_product AND pl.id_lang = '$lang'
@@ -3225,7 +3205,7 @@ SQL;
 					$extra_join_product_shop .= "AND ps.id_shop = '{$this->shop_id}'";
 				}
 				$sql = "
-					SELECT DISTINCT p.id_product, p.id_supplier, p.id_manufacturer, ps.id_tax_rules_group, ps.id_category_default, ps.on_sale, 0 AS quantity, ps.price, ps.wholesale_price, p.reference, p.ean13, p.supplier_reference, $location_field, $condition_field, $show_condition_field, p.width, p.height, p.depth, p.weight, 0 AS out_of_stock, ps.active, ps.available_for_order, ps.visibility, p.is_virtual, ps.date_add AS date, pl.id_lang, pl.name, pl.link_rewrite AS slug, pl.description, pl.description_short, pl.meta_description, pl.meta_keywords, pl.meta_title
+					SELECT DISTINCT p.id_product, p.id_supplier, p.id_manufacturer, ps.id_tax_rules_group, ps.id_category_default, ps.on_sale, 0 AS quantity, ps.price, ps.wholesale_price, p.reference, p.ean13, p.supplier_reference, $location_field, $condition_field, $show_condition_field, p.width, p.height, p.depth, p.weight, 0 AS out_of_stock, ps.active, ps.available_for_order, ps.visibility, p.is_virtual, ps.date_add AS date, pl.id_lang, pl.name, pl.link_rewrite AS slug, pl.description, pl.description_short, pl.meta_description, pl.meta_title
 					$extra_cols
 					FROM {$prefix}product p
 					INNER JOIN {$prefix}product_shop AS ps ON ps.id_product = p.id_product $extra_join_product_shop

@@ -4,7 +4,7 @@ Plugin Uri: https://wordpress.org/plugins/fg-prestashop-to-woocommerce/
 Tags: prestashop, woocommerce, importer, converter, dropshipping
 Requires at least: 4.5
 Tested up to: 6.8
-Stable tag: 4.59.3
+Stable tag: 4.61.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -16,7 +16,7 @@ A plugin to migrate PrestaShop e-commerce solution to WooCommerce
 
 This plugin migrates products, categories, tags, images and CMS from PrestaShop to WooCommerce/WordPress.
 
-It has been tested with **PrestaShop versions 1.0 to 8.1** and the latest version of WordPress. It is compatible with multisite installations.
+It has been tested with **PrestaShop versions 1.0 to 9** and the latest version of WordPress. It is compatible with multisite installations.
 
 Major features include:
 
@@ -121,6 +121,9 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * other can be translated
 
 == Changelog ==
+
+= 4.61.0 =
+* New: Compatibility with PrestaShop 9
 
 = 4.59.3 =
 * Tested with WordPress 6.8
@@ -913,15 +916,5 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 
 == Upgrade Notice ==
 
-= 4.59.3 =
-Tested with WordPress 6.8
-
-= 4.59.2 =
-Fixed: Wrong language used in the function get_wp_product_id_from_prestashop_id() if it is different from 1
-
-= 4.59.1 =
-Fixed: A product was displayed twice on the same page on the front-end if it exists a draft product with the same name
-
-= 4.59.0 =
-New: Search thumbnail category images in /img/c/XXX-medium_default.jpg'
-New: Search thumbnail category images in /img/c/XXX_thumb.jpg'
+= 4.61.0 =
+New: Compatibility with PrestaShop 9
