@@ -3,8 +3,8 @@ Contributors: Kerfred
 Plugin Uri: https://wordpress.org/plugins/fg-prestashop-to-woocommerce/
 Tags: prestashop, woocommerce, importer, converter, dropshipping
 Requires at least: 4.5
-Tested up to: 6.8
-Stable tag: 4.61.0
+Tested up to: 6.9
+Stable tag: 4.65.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,16 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 * other can be translated
 
 == Changelog ==
+
+= 4.65.0 =
+* Tested with WordPress 6.9.1
+
+= 4.63.0 =
+* New: Add the function wp_table_exists()
+* Fixed: The prices filter widget was not working with imported products
+
+= 4.62.1 =
+* Tested with WordPress 6.9
 
 = 4.61.0 =
 * New: Compatibility with PrestaShop 9
@@ -916,5 +926,5 @@ Don't hesitate to let a comment on the [forum](https://wordpress.org/support/plu
 
 == Upgrade Notice ==
 
-= 4.61.0 =
-New: Compatibility with PrestaShop 9
+= 4.65.0 =
+Tested with WordPress 6.9.1

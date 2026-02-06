@@ -64,7 +64,6 @@ if ( !class_exists('FG_PrestaShop_to_WooCommerce_Admin', false) ) {
 		private $post_type = 'post';				// post or page
 		private $image_filename_key = false;		// Optimization to get the right image filename
 		private $default_backorders = 'no';			// Allow backorders
-		private $imported_tags = array();			// Imported tags
 		private $notices = array();					// Error or success messages
 		private $log_file;
 		private $log_file_url;
@@ -2574,8 +2573,12 @@ SQL;
 
 				// Add the meta data
 				add_post_meta($new_post_id, '_stock_status', $stock_status, true);
-				add_post_meta($new_post_id, '_regular_price', $prices['regular_price'], true);
-				add_post_meta($new_post_id, '_price', $prices['price'], true);
+				if ( !empty($prices['regular_price']) ) {
+					add_post_meta($new_post_id, '_regular_price', $prices['regular_price'], true);
+				}
+				if ( !empty($prices['price']) ) {
+					add_post_meta($new_post_id, '_price', $prices['price'], true);
+				}
 				if ( $prices['special_price'] != $prices['regular_price'] ) {
 					add_post_meta($new_post_id, '_sale_price', $prices['special_price'], true);
 					add_post_meta($new_post_id, '_sale_price_dates_from', $reduction_from, true);
@@ -4168,5 +4171,20 @@ SQL;
 			return $result;
 		}
 		
+		/**
+		 * Test if a table exists in WordPress
+		 *
+		 * @since 4.63.0
+		 * 
+		 * @param string $table Table name
+		 * @return bool
+		 */
+		public function wp_table_exists($table) {
+			global $wpdb;
+			
+			$table_name = $wpdb->prefix . $table;
+			return $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name)) == $table_name;
+		}
+
 	}
 }

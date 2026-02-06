@@ -16,14 +16,14 @@
  * Plugin Name:       FG PrestaShop to WooCommerce
  * Plugin URI:        https://www.fredericgilles.net/fg-prestashop-to-woocommerce/
  * Description:       A plugin to migrate PrestaShop e-commerce solution to WooCommerce
- * Version:           4.61.0
+ * Version:           4.63.0
  * Author:            Frédéric GILLES
  * Author URI:        https://www.fredericgilles.net/
  * License:           GPLv2 or later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       fg-prestashop-to-woocommerce
  * Domain Path:       /languages
- * WC tested up to:   9.0
+ * WC tested up to:   10.0
  */
 
 // If this file is called directly, abort.
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'FGP2WC_PLUGIN_VERSION', '4.61.0' );
+define( 'FGP2WC_PLUGIN_VERSION', '4.63.0' );
 
 /**
  * The code that runs during plugin activation.
